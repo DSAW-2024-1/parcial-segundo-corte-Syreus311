@@ -25,6 +25,8 @@
 
 ¡Buena suerte!
 
+## Link Deplegado: https://parcial-segundo-corte-seven.vercel.app
+
 
 Lista de nombres de la clase:
 
