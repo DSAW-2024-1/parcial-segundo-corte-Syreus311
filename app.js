@@ -1,13 +1,13 @@
-const express = require("express");
-const axios = require("axios");
-const { users } = require("./utils/users");
-const bodyParser = require("body-parser");
+const express = require('express');
+const axios = require('axios');
+const { users } = require('./utils/users');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 app.use(bodyParser.json());
 
-app.get("/coin/:currency", async (req, res) => {
+app.get('/coin/:currency', async (req, res) => {
     try {
         const { currency } = req.params;
         const response = await axios.get(
@@ -22,29 +22,29 @@ app.get("/coin/:currency", async (req, res) => {
             });
         }
     } catch (error) {
-        console.error("Error:", error);
+        console.error('Error:', error);
         res.status(404).json({
-            error: "El nombre de la moneda no fue encontrado en la base de datos",
+            error: 'El nombre de la moneda no fue encontrado en la base de datos',
         });
     }
 });
 
-app.get("/users/:count", (req, res) => {
+app.get('/users/:count', (req, res) => {
     const number = parseInt(req.params.count);
-    const order = req.query.sort || "asc";
+    const order = req.query.sort || 'asc';
 
     if (isNaN(number) || number <= 0) {
         return res.status(400).json({
-            error: "No se especificó el parametro count",
+            error: 'No se especificó el parametro count',
         });
     }
 
     const filteredUsers = [...users].slice(0, number);
 
     const sortedUsers = filteredUsers.sort((a, b) => {
-        if (order === "asc") {
+        if (order === 'asc') {
             return a.lastName.localeCompare(b.lastName);
-        } else if (order === "desc") {
+        } else if (order === 'desc') {
             return b.lastName.localeCompare(a.lastName);
         }
     });
@@ -52,19 +52,19 @@ app.get("/users/:count", (req, res) => {
     res.json(sortedUsers);
 });
 
-app.post("/users", (req, res) => {
+app.post('/users', (req, res) => {
     const {
         name,
         lastname,
         email,
-        city = "Bogota",
-        country = "Colombia",
+        city = 'Bogota',
+        country = 'Colombia',
     } = req.body;
 
     if (!name || !lastname || !email) {
         return res
             .status(400)
-            .json({ error: "Name, lastname, and email are required" });
+            .json({ error: 'Name, lastname, and email are required' });
     }
 
     const newUser = {
@@ -78,7 +78,7 @@ app.post("/users", (req, res) => {
     res.status(201).json(newUser);
 });
 
-app.get("/", (req, res) => {
+app.get('/', (req, res) => {
     const html = `
       <!DOCTYPE html>
       <html lang="en">
@@ -95,5 +95,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(3000, () => {
-    console.log("Server running on port 3000");
+    console.log('Server running on port 3000');
 });
